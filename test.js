@@ -1,53 +1,118 @@
-let display = document.querySelector(".display");
-let buttons = Array.from(document.querySelectorAll(".button"));
+class Calculator {
+  constructor() {
+      this.display = document.querySelector(".display");
+      this.buttons = Array.from(document.querySelectorAll(".button"));
+      this.memory = 0; // Хранение значения памяти
+      this.initialize();
+      this.lastInputWasResult = false; // Переменная для отслеживания, был ли последний ввод результатом
+  }
 
-buttons.map((button) => {
-  button.addEventListener("click", (e) => {
-    switch (e.target.innerText) {
-      case "AC":
-        display.innerText = "0";
-        break;
+  initialize() {
+      this.buttons.forEach((button) => {
+          button.addEventListener("click", (e) => this.megabutoane(e.target.innerText));
+      });
+  }
 
-      case "=":
-        try {
-          // Если на дисплее есть символ √
-          if (display.innerText.includes("√")) {
-            // Извлекаем число после символа √ и вычисляем его квадратный корень
-            let expression = display.innerText.replace("√", ""); // Убираем √ из выражения
-            display.innerText = Math.sqrt(eval(expression)); // Вычисляем корень
+  megabutoane(scriere) {
+      switch (scriere) {
+          case "AC":
+              this.clearDisplay();
+              break;
+          case "=":
+              this.calculateResult();
+              break;
+          case "+/-":
+              this.toggleSign();
+              break;
+          case "%":
+              this.calculatePercentage();
+              break;
+          case "√":
+              this.handleSquareRoot();
+              break;
+          case "MC":
+              this.memoryClear();
+              break;
+          case "MR":
+              this.memoryRecall();
+              break;
+          case "M+":
+              this.memoryAdd();
+              break;
+          case "M-":
+              this.memorySubtract();
+              break;
+          default:
+              this.updateDisplay(scriere);
+      }
+  }
+
+  clearDisplay() {
+      this.display.innerText = "0";
+      this.lastInputWasResult = false;
+  }
+
+  calculateResult() {
+      try {
+          if (this.display.innerText.includes("√")) {
+              let expression = this.display.innerText.replace("√", "");
+              this.display.innerText = Math.sqrt(eval(expression));
           } else {
-            display.innerText = eval(display.innerText); // Обычное выражение
+              this.display.innerText = eval(this.display.innerText);
           }
-        } catch (e) {
-          display.innerText = "Error!";
-        }
-        break;
+          this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод был результатом
+      } catch (e) {
+          this.display.innerText = "Error!";
+      }
+  }
 
-      case "+/-":
-        display.innerText = "-";
-        break;
+  toggleSign() {
+      if (this.display.innerText !== "0") {
+          this.display.innerText = this.display.innerText.startsWith("-") ? this.display.innerText.slice(1) : "-" + this.display.innerText;
+      }
+  }
 
-      case "%":
-        let texttrecut = display.innerText + "/100";
-        display.innerText = eval(texttrecut);
-        break;
+  calculatePercentage() {
+      this.display.innerText = eval(this.display.innerText + "/100");
+      this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод был результатом
+  }
 
-      case "√":
-        // Если на дисплее "0", то заменяем его на символ "√"
-        if (display.innerText === "0") {
-          display.innerText = "√";
-        } else {
-          // Если на дисплее уже есть выражение, добавляем символ "√" в конец
-          display.innerText += "√";
-        }
-        break;
+  handleSquareRoot() {
+      this.display.innerText = this.display.innerText === "0" ? "√" : this.display.innerText + "√";
+  }
 
-      default:
-        if (display.innerText === "0" && e.target.innerText != ".") {
-          display.innerText = e.target.innerText;
-        } else {
-          display.innerText += e.target.innerText;
-        }
-    }
-  });
-});
+  updateDisplay(scriere) {
+      if (this.lastInputWasResult) {
+          this.display.innerText = scriere; // Если последний ввод был результатом, сбрасываем дисплей
+          this.lastInputWasResult = false; // Сбрасываем флаг
+      } else {
+          if (this.display.innerText === "0" && scriere !== ".") {
+              this.display.innerText = scriere;
+          } else {
+              this.display.innerText += scriere;
+          }
+      }
+  }
+
+  // Методы для работы с памятью
+  memoryClear() {
+      this.memory = 0; // Очищаем память
+  }
+
+  memoryRecall() {
+      this.display.innerText = this.memory.toString(); // Выводим на экран значение из памяти
+      this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод был результатом
+  }
+
+  memoryAdd() {
+      this.memory += parseFloat(this.display.innerText); // Добавляем текущее значение к памяти
+      this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод был результатом
+  }
+
+  memorySubtract() {
+      this.memory -= parseFloat(this.display.innerText); // Вычитаем текущее значение из памяти
+      this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод был результатом
+  }
+}
+
+new Calculator();
