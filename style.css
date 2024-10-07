@@ -34,6 +34,7 @@ body {
   flex-wrap: wrap;
 }
 
+
 .button {
   border: none;
   color: white;
@@ -59,7 +60,7 @@ body {
 }
 
 .btn-grey {
-  background-color: grey;
+  background-color: rgb(57, 47, 150);
 }
 
 .button:hover {
