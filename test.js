@@ -200,7 +200,7 @@ class Calculator {
           result = Math.tan((value * Math.PI) / 180); // Преобразуем градусы в радианы и вычисляем tan
           break;
       }
-      this.display.innerText = result.toFixed(10); // Округляем результат для лучшей точности
+      this.display.innerText = result.toFixed(2); // Округляем результат для лучшей точности
       this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод — это результат
     } catch (e) {
       this.display.innerText = "Error!"; // В случае ошибки выводим "Error!"
@@ -215,7 +215,7 @@ class Calculator {
     try {
       let value = parseFloat(this.display.innerText);
       if (value > 0) {
-        this.display.innerText = Math.log(value).toFixed(10); // Натуральный логарифм
+        this.display.innerText = Math.log(value).toFixed(2); // Натуральный логарифм
         this.lastInputWasResult = true;
       } else {
         this.display.innerText = "Error"; // Логарифм возможен только для положительных чисел
@@ -230,7 +230,7 @@ class Calculator {
     try {
       let value = parseFloat(this.display.innerText);
       if (value > 0) {
-        this.display.innerText = Math.log10(value).toFixed(10); // Логарифм по основанию 10
+        this.display.innerText = Math.log10(value).toFixed(2); // Логарифм по основанию 10
         this.lastInputWasResult = true;
       } else {
         this.display.innerText = "Error"; // Логарифм возможен только для положительных чисел
@@ -247,7 +247,7 @@ class Calculator {
       let value = parseFloat(this.display.innerText);
       base = parseFloat(base);
       if (value > 0 && base > 0 && base !== 1) {
-        this.display.innerText = (Math.log(value) / Math.log(base)).toFixed(10); // Логарифм по произвольному основанию
+        this.display.innerText = (Math.log(value) / Math.log(base)).toFixed(2); // Логарифм по произвольному основанию
         this.lastInputWasResult = true;
       } else {
         this.display.innerText = "Error"; // Ошибка при некорректном вводе
