@@ -185,7 +185,6 @@ class Calculator {
     this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод — это результат
   }
 
-  // Метод для вычисления тригонометрических функций
   calculateTrigFunction(func) {
     try {
       const value = parseFloat(this.display.innerText); // Преобразуем значение на дисплее в число
@@ -195,18 +194,19 @@ class Calculator {
           result = Math.sin((value * Math.PI) / 180); // Преобразуем градусы в радианы и вычисляем sin
           break;
         case "cos":
-          result = Math.cos((value * Math.PI) / 180); // Вычисляем cos
+          result = Math.cos((value * Math.PI) / 180); // Преобразуем градусы в радианы и вычисляем cos
           break;
         case "tan":
-          result = Math.tan((value * Math.PI) / 180); // Вычисляем tan
+          result = Math.tan((value * Math.PI) / 180); // Преобразуем градусы в радианы и вычисляем tan
           break;
       }
-      this.display.innerText = result; // Показываем результат на дисплее
+      this.display.innerText = result.toFixed(10); // Округляем результат для лучшей точности
       this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод — это результат
     } catch (e) {
       this.display.innerText = "Error!"; // В случае ошибки выводим "Error!"
     }
   }
+  
 
   // Логарифмы
 
