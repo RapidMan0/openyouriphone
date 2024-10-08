@@ -65,6 +65,9 @@ class Calculator {
       case "logₐ":
         this.handleLogBase(); // Логарифм по произвольному основанию
         break;
+      case "HEX":
+        this.convertToHex();
+        break;
       default:
         this.updateDisplay(scriere); // Обновляем дисплей
     }
@@ -251,6 +254,17 @@ class Calculator {
       }
     } catch (e) {
       this.display.innerText = "Error";
+    }
+  }
+
+  // Метод для преобразования числа в шестнадцатеричную систему исчисления
+  convertToHex() {
+    const currentNumber = parseFloat(this.display.innerText); // Получаем текущее число с дисплея
+    if (!isNaN(currentNumber)) { //Проверка, является ли введенное значение числом
+      this.display.innerText = currentNumber.toString(16).toUpperCase(); // Преобразуем в HEX и обновляем дисплей
+      this.lastInputWasResult = true; // Устанавливаем флаг, что последний ввод — это результат
+    } else {
+      this.display.innerText = "Error"; // Если на экране не число, выводим ошибку
     }
   }
 }
